@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="并发 SynchronousQueue," />
+  <meta name="keywords" content="并发,SynchronousQueue," />
 
 
 
@@ -80,17 +80,17 @@
 
 
 <meta name="description" content="##SynchronousQueue同步队列不提供缓冲区，生产者消费者彼此等待，握手并成对离开。提供了公平和非公平两种方式，FIFO和LIFO。本文的第2部分介绍了我们方法的背景。第3节介绍了算法，第4节介绍了经验性能数据。我们在第5节总结和讨论这项工作的潜在扩展 HansonSQHansonSQ使用信号量实现了类似的">
-<meta name="keywords" content="并发 SynchronousQueue">
+<meta name="keywords" content="并发,SynchronousQueue">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SynchronousQueue详解">
 <meta property="og:url" content="http://yoursite.com/2018/02/24/java并发-SynchronousQueue详解/index.html">
 <meta property="og:site_name" content="天空之城">
-<meta property="og:description" content="##SynchronousQueue同步队列不提供缓冲区，生产者消费者彼此等待，握手并成对离开。提供了公平和非公平两种方式，FIFO和LIFO。本文的第2部分介绍了我们方法的背景。第3节介绍了算法，第4节介绍了经验性能数据。我们在第5节总结和讨论这项工作的潜在扩展 HansonSQHansonSQ使用信号量实现了类似的机制 100 public class HansonSQ&amp;lt;E&amp;gt; &amp;#">
+<meta property="og:description" content="##SynchronousQueue同步队列不提供缓冲区，生产者消费者彼此等待，握手并成对离开。提供了公平和非公平两种方式，FIFO和LIFO。本文的第2部分介绍了我们方法的背景。第3节介绍了算法，第4节介绍了经验性能数据。我们在第5节总结和讨论这项工作的潜在扩展 HansonSQHansonSQ使用信号量实现了类似的机制 12345678910111213141516171819202100 p">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-24T09:55:58.000Z">
+<meta property="og:updated_time" content="2018-02-27T03:00:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SynchronousQueue详解">
-<meta name="twitter:description" content="##SynchronousQueue同步队列不提供缓冲区，生产者消费者彼此等待，握手并成对离开。提供了公平和非公平两种方式，FIFO和LIFO。本文的第2部分介绍了我们方法的背景。第3节介绍了算法，第4节介绍了经验性能数据。我们在第5节总结和讨论这项工作的潜在扩展 HansonSQHansonSQ使用信号量实现了类似的机制 100 public class HansonSQ&amp;lt;E&amp;gt; &amp;#">
+<meta name="twitter:description" content="##SynchronousQueue同步队列不提供缓冲区，生产者消费者彼此等待，握手并成对离开。提供了公平和非公平两种方式，FIFO和LIFO。本文的第2部分介绍了我们方法的背景。第3节介绍了算法，第4节介绍了经验性能数据。我们在第5节总结和讨论这项工作的潜在扩展 HansonSQHansonSQ使用信号量实现了类似的机制 12345678910111213141516171819202100 p">
 
 
 
@@ -303,6 +303,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java并发/" itemprop="url" rel="index">
+                    <span itemprop="name">java并发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -343,7 +365,7 @@
       
         <p>##SynchronousQueue<br>同步队列不提供缓冲区，生产者消费者彼此等待，握手并成对离开。提供了公平和非公平两种方式，FIFO和LIFO。本文的第2部分介绍了我们方法的背景。第3节介绍了算法，第4节介绍了经验性能数据。我们在第5节总结和讨论这项工作的潜在扩展</p>
 <h2 id="HansonSQ"><a href="#HansonSQ" class="headerlink" title="HansonSQ"></a>HansonSQ</h2><p>HansonSQ使用信号量实现了类似的机制</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">00 public class HansonSQ&lt;E&gt; &#123;01 E item = null;02 Semaphore sync = new Semaphore(0);03 Semaphore send = new Semaphore(1);04 Semaphore recv = new Semaphore(0);0506 Public E take() &#123;07 recv.acquire();08 E x = item;09 sync.release();10 send.release();11 return x;12 &#125;1314 public void put(E15 send.acquire();16 item = x;17 recv.release();18 sync.acquire();19 &#125;20 &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">00 public class HansonSQ&lt;E&gt; &#123;</span><br><span class="line">01 E item = null;</span><br><span class="line">02 Semaphore sync = new Semaphore(0);</span><br><span class="line">03 Semaphore send = new Semaphore(1);</span><br><span class="line">04 Semaphore recv = new Semaphore(0);</span><br><span class="line">05</span><br><span class="line">06 Public E take() &#123;</span><br><span class="line">07 recv.acquire();</span><br><span class="line">08 E x = item;</span><br><span class="line">09 sync.release();</span><br><span class="line">10 send.release();</span><br><span class="line">11 return x;</span><br><span class="line">12 &#125;</span><br><span class="line">13</span><br><span class="line">14 public void put(E</span><br><span class="line">15 send.acquire();</span><br><span class="line">16 item = x;</span><br><span class="line">17 recv.release();</span><br><span class="line">18 sync.acquire();</span><br><span class="line">19 &#125;</span><br><span class="line">20 &#125;</span><br></pre></td></tr></table></figure>
 <p>HansonSQ的实现和其他经典的SQ算法提供附加功能</p>
 <h2 id="JAVA5的SQ实现"><a href="#JAVA5的SQ实现" class="headerlink" title="JAVA5的SQ实现"></a>JAVA5的SQ实现</h2>
       
@@ -362,7 +384,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/并发-SynchronousQueue/" rel="tag"># 并发 SynchronousQueue</a>
+            <a href="/tags/并发/" rel="tag"># 并发</a>
+          
+            <a href="/tags/SynchronousQueue/" rel="tag"># SynchronousQueue</a>
           
         </div>
       
@@ -473,7 +497,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
