@@ -79,16 +79,16 @@
 
 
 
-<meta name="description" content="在某些人眼里，羊就应该待在羊圈里">
+<meta name="description" content="能说会道的家伙，统治了整个世界">
 <meta property="og:type" content="website">
 <meta property="og:title" content="天空之城">
 <meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="天空之城">
-<meta property="og:description" content="在某些人眼里，羊就应该待在羊圈里">
+<meta property="og:description" content="能说会道的家伙，统治了整个世界">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="天空之城">
-<meta name="twitter:description" content="在某些人眼里，羊就应该待在羊圈里">
+<meta name="twitter:description" content="能说会道的家伙，统治了整个世界">
 
 
 
@@ -262,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/30/java并发-wait和notify的实现原理/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/30/java并发-优雅关闭/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Tianfan">
@@ -281,7 +281,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/11/30/java并发-wait和notify的实现原理/" itemprop="url">wait和notify的实现原理</a></h1>
+                <a class="post-title-link" href="/2017/11/30/java并发-优雅关闭/" itemprop="url">优雅关闭</a></h1>
         
 
         <div class="post-meta">
@@ -333,7 +333,7 @@
 
           
           
-             <span id="/2017/11/30/java并发-wait和notify的实现原理/" class="leancloud_visitors" data-flag-title="wait和notify的实现原理">
+             <span id="/2017/11/30/java并发-优雅关闭/" class="leancloud_visitors" data-flag-title="优雅关闭">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -366,13 +366,18 @@
       
         
           
-            <h2 id="线程状态"><a href="#线程状态" class="headerlink" title="线程状态"></a>线程状态</h2><p>Thread类中定义的线程状态有5种：NEW,RUNNABLE,BLOCKED,WAITING,TIME_WAITING,TERMINATED<br><img src="http://ok7zxo817.bkt.clouddn.com/50a193a0978d718a5981a7fe8a5f5dfe.jpg" alt=""></p>
-<h2 id="底层实现分析"><a href="#底层实现分析" class="headerlink" title="底层实现分析"></a>底层实现分析</h2><h3 id="sleep"><a href="#sleep" class="headerlink" title="sleep"></a>sleep</h3><h4 id="理解pthread-cond-wait函数"><a href="#理解pthread-cond-wait函数" class="headerlink" title="理解pthread_cond_wait函数"></a>理解pthread_cond_wait函数</h4><p>### </p>
-<h2 id="wait和sleep的区别"><a href="#wait和sleep的区别" class="headerlink" title="wait和sleep的区别"></a>wait和sleep的区别</h2><ol>
-<li>sleep是Thread的方法，wait是Object的方法</li>
-<li>sleep(0)=yeild</li>
+            <h2 id="jvm关闭"><a href="#jvm关闭" class="headerlink" title="jvm关闭"></a>jvm关闭</h2><h3 id="关闭方式"><a href="#关闭方式" class="headerlink" title="关闭方式"></a>关闭方式</h3><p>JVM的关闭意味着将停止系统中所有的任务，可以由其自动关闭也可以主动触发。下面的几个条件都可以使JVM关闭：  </p>
+<ol>
+<li>所有的非守护都已经运行结束  </li>
+<li>调用了System.exit方法  </li>
+<li>杀死JVM进程 (比如SIGKILL或者Runtime.getRuntime().halt 、断电)</li>
+<li>通过系统平台发送关闭信号（比如按Ctrl+C或者SIGINT信号）  </li>
 </ol>
-
+<p>使用后关闭钩子的前提是JVM正常退出，上述第三种场景强制杀死JVM不会触发钩子函数执行。</p>
+<blockquote>
+<p>Runtime.getRuntime().addShutdownHook(new Thread());</p>
+</blockquote>
+<h2 id="线程池关闭"><a href="#线程池关闭" class="headerlink" title="线程池关闭"></a>线程池关闭</h2>
           
         
       
@@ -451,7 +456,7 @@
                 alt="Tianfan" />
             
               <p class="site-author-name" itemprop="name">Tianfan</p>
-              <p class="site-description motion-element" itemprop="description">在某些人眼里，羊就应该待在羊圈里</p>
+              <p class="site-description motion-element" itemprop="description">能说会道的家伙，统治了整个世界</p>
           </div>
 
           <nav class="site-state motion-element">
